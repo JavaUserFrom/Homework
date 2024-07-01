@@ -7,47 +7,54 @@
  */
 package client;
 
-import org.apache.commons.cli.*;
+
+
+import java.util.Scanner;
 
 public class CmdClient{
     public Client client;
     public CmdClient(Client client){
         this.client=client;
     }
-    public void cot(String[]input){
-        Options options = new Options();
-        options.addOption("rm", true, "输入删除的键值");
-        options.addOption("set", true, "输入查询");
-        options.addOption("get", true, "输入添加");
-        options.addOption("no",false,"退出");
-        CommandLineParser parser = new DefaultParser();
-        try {
-            CommandLine cmd = parser.parse(options, input);
-
-            if (cmd.hasOption("rm")) {
-
-                String keyToDelete = cmd.getOptionValue("rm");
-                System.out.println(keyToDelete);
-                client.rm(keyToDelete);
+    public void cot() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("输入指令：(set <key> <value>/get <key>/rm <key>/close(结束))(空格隔开)");
+            String is = scanner.nextLine();
+            String[] add = is.split("\\s+");
+            switch (add[0]) {
+                case "set":
+                    if (add.length == 3) {
+                        client.set(add[1], add[2]);
+                    } else {
+                        System.err.println("使用方法: set <key> <value>");
+                    }
+                    break;
+                case "get":
+                    if (add.length == 2) {
+                        client.get(add[1]);
+                    } else {
+                        System.err.println("使用方法: get <key>");
+                    }
+                    break;
+                case "rm":
+                    if (add.length == 2) {
+                        client.rm(add[1]);
+                        System.out.println("键 \"" + add[1] + "\" 已被移除。");
+                    } else {
+                        System.err.println("使用方法: rm <key>");
+                    }
+                    break;
+                case "close":
+                    System.out.println("退出程序...");
+                    scanner.close();
+                    return;
+                default:
+                    System.err.println("命令错误: " + add[0] + "请重新输入");
+                    break;
             }
 
-            if (cmd.hasOption("set")) {
-                String keyToDelete = cmd.getOptionValue("set");
-                String[] add =keyToDelete.split("\\|");
-                System.out.println(keyToDelete);
-                client.set(add[0],add[1]);
-
-            }
-
-            if (cmd.hasOption("get")) {
-                String keyToDelete = cmd.getOptionValue("get");
-                String[] add =keyToDelete.split("\\|");
-                System.out.println(keyToDelete);
-                client.set(add[0],add[1]);
-            }
-        } catch (ParseException e) {
-            System.err.println("Error parsing command line arguments. Please check the input.");
-            System.out.println("NO");
         }
+
     }
 }
