@@ -11,7 +11,6 @@ import dto.ActionDTO;
 import dto.ActionTypeEnum;
 import dto.RespDTO;
 import dto.RespStatusTypeEnum;
-import service.NormalStore;
 import service.Store;
 import utils.LoggerUtil;
 
@@ -48,7 +47,7 @@ public class SocketServerHandler implements Runnable {
             switch (DtoType){
                 case RM:
                     this.store.rm(dto.getKey());
-                    LoggerUtil.debug(LOGGER, "[SocketServerHandler][run]: {}", "set action resp" + dto.toString());
+                    LoggerUtil.debug(LOGGER, "[SocketServerHandler][run]: {}", "rm action resp" + dto.toString());
                     resp = new RespDTO(RespStatusTypeEnum.SUCCESS, null);
                     oos.writeObject(resp);
                     oos.flush();
@@ -81,27 +80,6 @@ public class SocketServerHandler implements Runnable {
                     oos.flush();
                     break;
             }
-//            if (dto.getType() == ActionTypeEnum.GET) {
-//                String value = this.store.get(dto.getKey());
-//                LoggerUtil.debug(LOGGER, "[SocketServerHandler][run]: {}", "get action resp" + dto.toString());
-//                RespDTO resp = new RespDTO(RespStatusTypeEnum.SUCCESS, value);
-//                oos.writeObject(resp);
-//                oos.flush();
-//            }
-//            if (dto.getType() == ActionTypeEnum.SET) {
-//                this.store.set(dto.getKey(), dto.getValue());
-//                LoggerUtil.debug(LOGGER, "[SocketServerHandler][run]: {}", "set action resp" + dto.toString());
-//                RespDTO resp = new RespDTO(RespStatusTypeEnum.SUCCESS, null);
-//                oos.writeObject(resp);
-//                oos.flush();
-//            }
-//            if (dto.getType() == ActionTypeEnum.RM) {
-//                this.store.rm(dto.getKey());
-//                LoggerUtil.debug(LOGGER, "[SocketServerHandler][run]: {}", "set action resp" + dto.toString());
-//                RespDTO resp = new RespDTO(RespStatusTypeEnum.SUCCESS, null);
-//                oos.writeObject(resp);
-//                oos.flush();
-//            }
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

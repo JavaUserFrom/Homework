@@ -8,6 +8,7 @@
 package example;
 
 import client.Client;
+import client.CmdClient;
 import client.SocketClient;
 
 public class SocketClientUsage {
@@ -15,11 +16,17 @@ public class SocketClientUsage {
         String host = "localhost";
         int port = 12345;
         Client client = new SocketClient(host, port);
-        client.get("zsy1");
-        client.set("zsy12","for test");
-        client.get("zsy12");
-        client.set("zsy11","in the test");
-        client.rm("zsy12");
-        client.get("zsy12");
+//        CmdClient cmd = new CmdClient(client);
+//        cmd.cot();
+        for(int i = 1; i <=29;i++)
+        {
+            client.set("whh"+i,"let"+i+"go to see the world!!");
+        }
+        client.set("zsy900","let me go to see the world!!");
+        client.set("zsy901","let 106 go to see the world");
+        client.set("zsy902","let 7867 go to see the world");
+//        client.set("zsy905","let 999 go to see the world");
+//        client.set("zsy906","let 109 go to see the world");
+//        client.rm("zsy17");
     }
 }
